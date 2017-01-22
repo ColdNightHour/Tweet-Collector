@@ -17,7 +17,10 @@ Do not know how to use Maven? Look [here] (https://maven.apache.org/guides/getti
 To allow for easier running, simply invoke the following from your bash terminal:
 ```$ ./run.sh arg```
 
-Where arg is one of the three:
+Where ```arg``` is one of the three:
+
 1. compile: simply compiles the project
+
 2. exec: simply runs the project
+
 3. both: does both of the above
