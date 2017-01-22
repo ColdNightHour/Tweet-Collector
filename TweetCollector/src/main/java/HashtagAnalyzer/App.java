@@ -54,6 +54,8 @@ public class App{
                  tweetIdHash.clear();
                  tweetIdHash.add(id);
              }
+
+
              //Extract tweet data and put into JSON
              org.json.JSONObject object = new JSONObject();
              object.put("name", status.getUser().getScreenName());
@@ -65,7 +67,7 @@ public class App{
              object.put("full_name", status.getPlace().getFullName());
              object.put("favorites", status.getFavoriteCount());
              object.put("language", status.getLang());
-
+             //Extra and process the hashtags
              HashtagEntity [] hashTags = status.getHashtagEntities();
              org.json.JSONArray hashtags = new JSONArray();
              for(int i = 0; i < hashTags.length; i = i + 1) {
@@ -73,9 +75,9 @@ public class App{
                hashtags.put(i, hashTags[i].getText());
              }
              object.put("hashTags", hashtags);
-             System.out.println(object);
 
 
+             //Add the current json Object to a buffer, but first convert to a string
              String jsonString = object.toString() + "\n";
              try{
                tweetByteCnt = tweetByteCnt + jsonString.getBytes("UTF-8").length;
@@ -83,6 +85,9 @@ public class App{
                System.out.println("WRONG ENCODING");
              }
              buffer.append(jsonString);
+
+
+             //Process the file writing to store the data for future spark processing
              if(tweetByteCnt >= MAX_BYTE_CNT) {
                tweetByteCnt = 0;
                try{
@@ -103,6 +108,7 @@ public class App{
                      filePassCnt++;
                  }
                  writer.close();
+                 //Do garbage collecting for memory leaks
                  buffer = new StringBuffer();
                  buffer.trimToSize();
                  System.gc();
