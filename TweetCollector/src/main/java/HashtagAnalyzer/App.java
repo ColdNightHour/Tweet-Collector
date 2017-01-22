@@ -60,32 +60,26 @@ public class App{
              object.put("message", status.getText());
              object.put("timestamp", status.getCreatedAt());
              object.put("location", ((status.getGeoLocation() == null) ? "N/A" : status.getGeoLocation().toString()));
+             object.put("place_type", status.getPlace().getCountry());
              object.put("country", status.getPlace().getCountry());
+             object.put("full_name", status.getPlace().getFullName());
              object.put("favorites", status.getFavoriteCount());
              object.put("language", status.getLang());
-             System.out.println(object);
-             /*
-             System.out.println(status.getPlace());
-             System.out.println();
-             /*
-             object.put("country", status.getPlace());
 
              HashtagEntity [] hashTags = status.getHashtagEntities();
              org.json.JSONArray hashtags = new JSONArray();
-             for(int i = 0; i < hashTags.length; i++) {
+             for(int i = 0; i < hashTags.length; i = i + 1) {
                String hashtag = hashTags[i].getText();
                hashtags.put(i, hashTags[i].getText());
              }
              object.put("hashTags", hashtags);
+             System.out.println(object);
 
-             org.json.JSONArray urlArray = new JSONArray();
-             org.json.JSONArray hashArray = new JSONArray();
-             String [] parts = msg.split("\\s+");
-             // Attempt to convert each item into an URL.
+
              String jsonString = object.toString() + "\n";
              try{
-               tweetByteCnt+=jsonString.getBytes("UTF-8").length;
-             } catch(UnsupportedEncodingException e) {
+               tweetByteCnt = tweetByteCnt + jsonString.getBytes("UTF-8").length;
+             } catch(Exception e) {
                System.out.println("WRONG ENCODING");
              }
              buffer.append(jsonString);
@@ -95,11 +89,11 @@ public class App{
                  System.out.println("FILE " + fileCnt + " WRITTEN OF PASS " + filePassCnt);
                  if(filePassCnt == 1) {
                    filePassCnt++;
-                   writer = new PrintWriter("./tweets/file" + fileCnt + ".txt", "UTF-8");
+                   writer = new PrintWriter("~/Documents/Tweet-Collector/tweets/file" + fileCnt + ".txt", "UTF-8");
                    writer.println(buffer);
                  }
                  else if(filePassCnt != 1) {
-                   writer= new PrintWriter(new FileOutputStream("./tweets/file" + fileCnt + ".txt", true));
+                   writer= new PrintWriter(new FileOutputStream("~/Documents/Tweet-Collector/tweets/file" + fileCnt + ".txt", true));
                    writer.append(buffer);
                    if(filePassCnt == 10) {
                      filePassCnt = 1;
@@ -117,7 +111,6 @@ public class App{
                  System.out.println("ERROR:" + e.getMessage());
                }
              }
-*/
            } catch (Exception e) {
                System.out.println("ERROR:" + e.getMessage());
            }
