@@ -61,14 +61,14 @@ public class App{
              object.put("timestamp", status.getCreatedAt());
              object.put("location", ((status.getGeoLocation() == null) ? "N/A" : status.getGeoLocation().toString()));
              object.put("country", status.getPlace().getCountry());
-             object.put("favorites", status.getFavoriteCount())
+             object.put("favorites", status.getFavoriteCount());
+             object.put("language", status.getLang());
              System.out.println(object);
              /*
              System.out.println(status.getPlace());
              System.out.println();
              /*
              object.put("country", status.getPlace());
-             object.put("language", status.getLang());
 
              HashtagEntity [] hashTags = status.getHashtagEntities();
              org.json.JSONArray hashtags = new JSONArray();
