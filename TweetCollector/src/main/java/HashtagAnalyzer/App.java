@@ -2,17 +2,12 @@ package HashtagAnalyzer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.nibor.autolink.LinkExtractor;
-import org.nibor.autolink.LinkSpan;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
-import java.util.HashSet;
+
 import java.io.*;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.net.URL;
-import java.net.MalformedURLException;
+
 import java.lang.*;
 import java.io.File;
 
@@ -29,24 +24,22 @@ public class App{
   public static String location = "NULL";
   public static Boolean run = true;
   public static StringBuffer buffer = new StringBuffer("");
-  public static int fileCnt = 48;
-  public static int filePassCnt = 5;
+  public static int fileCnt = 1;
+  public static int filePassCnt = 1;
   public static long overallBytes = 0;
   public static PrintWriter writer;
     public static void main( String[] args )  {
-      ConfigurationBuilder config = new ConfigurationBuilder();/*
+      ConfigurationBuilder config = new ConfigurationBuilder();
       config.setOAuthConsumerKey("K8P38gSDQUTk1Et7QAxDg5a1B")
             .setOAuthConsumerSecret("GcRmcdSe6CbLT1BvGNZREso8jrcNRENsYDc4crHWr4UOvaA44s")
             .setOAuthAccessToken("1853291412-qwBGaZr2S64KfmIU0hB1aYi4Kc0goxOQWzyeA20")
             .setOAuthAccessTokenSecret("CV17evpidxeGGTkP6mn7OwOOMIflt6DZSljwO0jbq6wZM");
-      TwitterStream twitterStream = new TwitterStreamFactory(config.build()).getInstance();*/
+      TwitterStream twitterStream = new TwitterStreamFactory(config.build()).getInstance();
       StatusListener statusListener = new StatusListener() {
         public void onStatus(Status status) {
-          /*
+
           try {
-
-             //DUPLICATE DETECTION
-
+            //Duplicate detection
              long id = status.getId();
              if (tweetCnt < MAX_TWEET_CNT) {
                  ++tweetCnt;
@@ -61,11 +54,21 @@ public class App{
                  tweetIdHash.clear();
                  tweetIdHash.add(id);
              }
-             String msg = status.getText();
+             //Extract tweet data and put into JSON
              org.json.JSONObject object = new JSONObject();
              object.put("name", status.getUser().getScreenName());
-             object.put("message", msg);
+             object.put("message", status.getText());
              object.put("timestamp", status.getCreatedAt());
+             object.put("location", ((status.getGeoLocation() == null) ? "N/A" : status.getGeoLocation().toString()));
+             object.put("country", status.getPlace().getCountry());
+             object.put("favorites", status.getFavoriteCount())
+             System.out.println(object);
+             /*
+             System.out.println(status.getPlace());
+             System.out.println();
+             /*
+             object.put("country", status.getPlace());
+             object.put("language", status.getLang());
 
              HashtagEntity [] hashTags = status.getHashtagEntities();
              org.json.JSONArray hashtags = new JSONArray();
@@ -75,18 +78,6 @@ public class App{
              }
              object.put("hashTags", hashtags);
 
-             URLEntity [] statusURLS  = status.getURLEntities();
-             org.json.JSONArray URLS = new JSONArray();
-             for(int i = 0; i < statusURLS.length; i++) {
-               String url = statusURLS[i].getURL();
-               URLS.put(i, url);
-             }
-             object.put("URLS", URLS);
-             if((status.getGeoLocation()) == null)
-               location = "Null";
-             else
-               location = status.getGeoLocation().toString();
-             object.put("location", location);
              org.json.JSONArray urlArray = new JSONArray();
              org.json.JSONArray hashArray = new JSONArray();
              String [] parts = msg.split("\\s+");
@@ -122,17 +113,14 @@ public class App{
                  buffer.trimToSize();
                  System.gc();
                }
-               catch(FileNotFoundException e) {
-                 System.out.println("NO FILE");
-               }
-               catch(UnsupportedEncodingException e) {
-
+               catch(Exception e) {
+                 System.out.println("ERROR:" + e.getMessage());
                }
              }
-
+*/
            } catch (Exception e) {
                System.out.println("ERROR:" + e.getMessage());
-           }*/
+           }
         }
         public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
             //System.out.println("Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
@@ -153,14 +141,13 @@ public class App{
         public void onException(Exception ex) {
             ex.printStackTrace();
         }
-      };/*
+      };
       twitterStream.addListener(statusListener);
-//  twitterStream.sample("en");
 
       double [][] boundingbox = {{-121.7099473, 31.6558962},{-83.4119626,47.8417964}};
       FilterQuery filter = new FilterQuery();
       filter.locations(boundingbox);
-      twitterStream.filter(filter);*/
+      twitterStream.filter(filter);
       System.out.println( "Hello World!" );
     }
 }
