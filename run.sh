@@ -2,11 +2,11 @@
 cd ./TweetCollector
 
 if [ "$1" = "compile" ]; then
-  mvn package
+  mvn clean install
 elif [ "$1" = "exec" ]; then
-  java -cp target/TweetCollector-1.0-SNAPSHOT.jar HashtagAnalyzer.App
+  mvn exec:java -Dexec.mainClass="HashtagAnalyzer.App"
 elif [ "$1" = "both" ]; then
-  mvn package && java -cp target/TweetCollector-1.0-SNAPSHOT.jar HashtagAnalyzer.App
+  mvn clean install && mvn exec:java -Dexec.mainClass="HashtagAnalyzer.App"
 else
   echo "Wrong command"
 fi
