@@ -24,8 +24,8 @@ public class App{
   public static String location = "NULL";
   public static Boolean run = true;
   public static StringBuffer buffer = new StringBuffer("");
-  public static int fileCnt = 1;
-  public static int filePassCnt = 1;
+  public static int fileCnt = 117;
+  public static int filePassCnt = 3;
   public static long overallBytes = 0;
   public static PrintWriter writer;
     public static void main( String[] args )  {
@@ -62,12 +62,14 @@ public class App{
              object.put("message", status.getText());
              object.put("timestamp", status.getCreatedAt());
              object.put("location", ((status.getGeoLocation() == null) ? "N/A" : status.getGeoLocation().toString()));
-             object.put("place_type", status.getPlace().getCountry());
+             object.put("place_type", status.getPlace().getPlaceType());
              object.put("country", status.getPlace().getCountry());
              object.put("full_name", status.getPlace().getFullName());
              object.put("favorites", status.getFavoriteCount());
              object.put("language", status.getLang());
-             //Extra and process the hashtags
+	           object.put("replied_to", ((status.getInReplyToScreenName() == null) ? "N/A" : status.getInReplyToScreenName()));
+             object.put("possibly_sensitive", status.isPossiblySensitive());
+             //Extract and process the hashtags
              HashtagEntity [] hashTags = status.getHashtagEntities();
              org.json.JSONArray hashtags = new JSONArray();
              for(int i = 0; i < hashTags.length; i = i + 1) {
@@ -94,11 +96,11 @@ public class App{
                  System.out.println("FILE " + fileCnt + " WRITTEN OF PASS " + filePassCnt);
                  if(filePassCnt == 1) {
                    filePassCnt++;
-                   writer = new PrintWriter("~/Documents/Tweet-Collector/tweets/file" + fileCnt + ".txt", "UTF-8");
+                   writer = new PrintWriter("../tweets/file" + fileCnt + ".txt", "UTF-8");
                    writer.println(buffer);
                  }
                  else if(filePassCnt != 1) {
-                   writer= new PrintWriter(new FileOutputStream("~/Documents/Tweet-Collector/tweets/file" + fileCnt + ".txt", true));
+                   writer= new PrintWriter(new FileOutputStream("../tweets/file" + fileCnt + ".txt", true));
                    writer.append(buffer);
                    if(filePassCnt == 10) {
                      filePassCnt = 1;
@@ -143,10 +145,9 @@ public class App{
       };
       twitterStream.addListener(statusListener);
 
-      double [][] boundingbox = {{-121.7099473, 31.6558962},{-83.4119626,47.8417964}};
+      double [][] boundingbox = {{-123.394791, 31.368501},{-67.703452,47.046927}};
       FilterQuery filter = new FilterQuery();
       filter.locations(boundingbox);
       twitterStream.filter(filter);
-      System.out.println( "Hello World!" );
     }
 }
