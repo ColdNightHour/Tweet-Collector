@@ -7,7 +7,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.*;
 import java.util.HashSet;
-
 import java.lang.*;
 import java.io.File;
 
@@ -24,8 +23,8 @@ public class App{
   public static String location = "NULL";
   public static Boolean run = true;
   public static StringBuffer buffer = new StringBuffer("");
-  public static int fileCnt = 117;
-  public static int filePassCnt = 3;
+  public static int fileCnt = 285;
+  public static int filePassCnt = 7;
   public static long overallBytes = 0;
   public static PrintWriter writer;
     public static void main( String[] args )  {
