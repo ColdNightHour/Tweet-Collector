@@ -23,8 +23,8 @@ public class App{
   public static String location = "NULL";
   public static Boolean run = true;
   public static StringBuffer buffer = new StringBuffer("");
-  public static int fileCnt = 311;
-  public static int filePassCnt = 5;
+  public static int fileCnt = 403;
+  public static int filePassCnt = 3;
   public static long overallBytes = 0;
   public static PrintWriter writer;
     public static void main( String[] args )  {
