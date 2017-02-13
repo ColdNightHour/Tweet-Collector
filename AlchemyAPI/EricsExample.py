@@ -50,10 +50,15 @@ while line:
 	if response['status'] == 'OK':
 		print(line, 'type: ', response['docSentiment']['type'])
 		if 'score' in response['docSentiment']:
-			print('score: ', response['docSentiment']['score'],'\n')
-			
+			print('score: ', response['docSentiment']['score'])
+	
+	#Formatting
+	print('')
+	
 	#Read next line
 	line = f.readline()
+    
+
 
 #File close
 f.close()
