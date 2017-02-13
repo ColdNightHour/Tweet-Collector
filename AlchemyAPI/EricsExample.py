@@ -23,41 +23,37 @@ import json
 # Create the AlchemyAPI Object
 alchemyapi = AlchemyAPI()
 
+#Print Formatting
 print('')
 print('')
 print('')
 print('############################################')
-print('#   Sentiment Analysis Example             #')
+print('#           Check Out Deez Tweetz          #')
 print('############################################')
 print('')
 print('')
 
+#Open File
 f = open('tweets.txt')
+
+#Read First Line
 line = f.readline()
 
+#Just as long as it is not the end of the file
 while line:
+	#Sends line to AlchemyAPI
 	response = alchemyapi.sentiment('text', line)
 	
+	#If API responds with OK JSON status,
+		#Print tweet, response, and if not neutral, print score
+		
 	if response['status'] == 'OK':
 		print(line, 'type: ', response['docSentiment']['type'])
 		if 'score' in response['docSentiment']:
-			print('score: ', response['docSentiment']['score'])
+			print('score: ', response['docSentiment']['score'],'\n')
 			
-	print('')
+	#Read next line
 	line = f.readline()
 
+#File close
 f.close()
-
-	#response = alchemyapi.sentiment('text', demo_text)
-
-	#if response['status'] == 'OK':
-		#print('')
-		#print('## Tweet Sentiment ##')
-		#print('type: ', response['docSentiment']['type'])
-
-		#if 'score' in response['docSentiment']:
-			#print('score: ', response['docSentiment']['score'])
-			
-		#print('')
-	#else:
-		#print('Error in sentiment analysis call: ', response['statusInfo'])
