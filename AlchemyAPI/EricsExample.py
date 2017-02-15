@@ -51,6 +51,8 @@ while line:
 		print(line, 'type: ', response['docSentiment']['type'])
 		if 'score' in response['docSentiment']:
 			print('score: ', response['docSentiment']['score'])
+		else:
+			print('score: 0') 
 	
 	#Formatting
 	print('')
